@@ -1,29 +1,32 @@
 // 1. Create a multidimensional array to hold quiz questions and answers
 
 const main = document.querySelector("main");
+const div = document.querySelector("div");
+const div2 = document.querySelector(".div-2");
 
 const questions = [
-  ["What is Buffy’s middle name in ‘Buffy the Vampire Slayer’?", ["Anne"]],
+  ["What is Buffy’s middle name in ‘Buffy the Vampire Slayer’?", "anne"],
   [
     "In ‘Buffy the Vampire Slayer’, how many years old was Buffy when she was summoned to be a slayer?",
-    ["15"],
+    "15",
   ],
   [
     "Who’s the first Scooby Gang member that Buffy meets in ‘Buffy the Vampire Slayer’?",
-    ["Cordelia"],
+    "cordelia",
   ],
-  [
-    "In ‘Buffy the Vampire Slayer’, who turned Angel into a vampire?",
-    ["Darla"],
-  ],
+  ["In ‘Buffy the Vampire Slayer’, who turned Angel into a vampire?", "darla"],
   [
     "What is the pilot of ‘Buffy the Vampire Slayer’ called?",
-    ["Welcome to the Hellmouth"],
+    "welcome to the hellmouth",
   ],
 ];
 
+const wrongQuestions = [];
+const rightQuestions = [];
+
 // 2. Store the number of questions answered correctly
 let answerTally = 0;
+let message;
 
 /* 
   3. Use a loop to cycle through each question
@@ -33,26 +36,37 @@ let answerTally = 0;
         answered questions increments by 1
 */
 
-function takeTheQuiz() {
-  let questionPrompt;
-  for (let i = 0; i < questions.length; i++) {
-    questionPrompt += prompt(questions[i][0]);
+for (let i = 0; i < questions.length; i++) {
+  let question = questions[i][0];
+  let answer = questions[i][1];
+  let userInput = prompt(question);
 
-    if (questionPrompt.includes(questions[i][1])) {
-      answerTally++;
-    }
-  }
-  if (answerTally === 5) {
-    return `<h1>You got <span>${answerTally}</span> out of <span>${questions.length}</span> questions right. You are a Buffy expert!</h1>`;
-  } else if (answerTally === 1 || answerTally === 2) {
-    return `<h1>You got <span>${answerTally}</span> out of <span>${questions.length}</span> questions right. Did you even watch the show?</h1>`;
-  } else if (answerTally === 3 || answerTally === 4) {
-    return `<h1>You got <span>${answerTally}</span> out of <span>${questions.length}</span> questions right. You definitely know your stuff about BTVS!</h1>`;
+  if (userInput.toLowerCase() === answer) {
+    answerTally++;
+    rightQuestions.push(question);
   } else {
-    return `<h1>You got no answers right. Time for you to rewatch Buffy!</h1>`;
+    wrongQuestions.push(question);
   }
+}
+
+console.log(rightQuestions);
+
+function createListItems(arr) {
+  let items = "";
+  for (let i = 0; i < arr.length; i++) {
+    items += `<li>${arr[i]}</li>`;
+  }
+  return items;
 }
 
 // 4. Display the number of correct answers to the user
 
-main.innerHTML = takeTheQuiz();
+main.innerHTML = `<h1>You got <span>${answerTally}</span> question(s) correct 😎</h1>`;
+div.innerHTML = `<h2>Questions you got right:</h2>
+<ol>
+${createListItems(rightQuestions)}
+</ol>`;
+div2.innerHTML = `<h2>Questions you got wrong:</h2>
+<ol>
+${createListItems(wrongQuestions)}
+</ol>`;

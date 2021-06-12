@@ -8,7 +8,7 @@
     background-color: #42b4d6;
   }
   
-  main {
+  main, div, .div-2 {
     width: 60%;
     max-width: 1080px;
     padding: 1em 0 2em;
